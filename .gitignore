@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+
+# Datasets
+datasets/
+FOD.v2i.yolov8/
+Mechanical tools-10000.v1i.yolov8/
+
+# Model weights and training outputs
+runs/
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.torchscript
+*.engine
+
+# YOLO specific
+yolov8*.pt
+yolov8*.yaml
+*.cache
+
+# Large files
+*.zip
+*.tar
+*.gz
+*.rar
+
+# Logs
+*.log
+wandb/
+*.csv
+
+# OS specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.Zone.Identifier
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# Test outputs
+test_output/
+output/
+results/

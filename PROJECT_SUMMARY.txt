@@ -1,0 +1,179 @@
+===============================================================================
+YOLOv8 Training Project - Setup Complete!
+===============================================================================
+
+SYSTEM INFORMATION:
+- Virtual Environment: venv (Python 3.13)
+- GPU: NVIDIA GeForce RTX 4070 Laptop GPU
+- CUDA: Available and configured
+- PyTorch: 2.7.1+cu118 (with CUDA 11.8)
+- Ultralytics YOLOv8: 8.3.228
+
+===============================================================================
+DATASET SUMMARY:
+===============================================================================
+
+Combined Dataset: 86 classes (80 COCO + 6 custom)
+Location: /root/workspace/drone-azooz/datasets/combined/
+
+Training Set:
+  - Images: 10,671
+  - Annotations: 46,260
+  
+Validation Set:
+  - Images: 2,696
+  - Annotations: 12,362
+
+Custom Classes (IDs 80-85):
+  80: FOD             - 35,342 train / 9,499 val annotations
+  81: drill           - 494 train / 142 val annotations
+  82: hammer          - 3,285 train / 949 val annotations
+  83: pliers          - 1,710 train / 454 val annotations
+  84: screwdriver     - 3,883 train / 914 val annotations
+  85: wrench          - 1,546 train / 404 val annotations
+
+Note: COCO dataset (classes 0-79) not included yet. You can add it later if needed.
+
+===============================================================================
+FILES CREATED:
+===============================================================================
+
+Scripts:
+  merge_datasets.py      - Merge COCO + custom datasets with class ID remapping
+  train.py               - Train YOLOv8s on combined dataset (20 epochs)
+  inference.py           - Run detection on images/videos
+  verify_dataset.py      - Verify dataset statistics
+  download_coco.py       - Helper for COCO download (optional)
+  INSTRUCTIONS.sh        - Quick reference guide
+
+Configuration:
+  combined_data.yaml     - Dataset config with 86 classes
+  
+Pretrained Model:
+  yolov8s.pt            - YOLOv8s pretrained on COCO (included in repo)
+
+===============================================================================
+WORKFLOW:
+===============================================================================
+
+1. DATASET MERGE [✓ COMPLETED]
+   Command: python merge_datasets.py
+   - FOD dataset: class 0 → 80
+   - Mechanical tools: classes 0-4 → 81-85
+   - Output: datasets/combined/
+
+2. TRAIN MODEL [READY TO RUN]
+   Command: python train.py
+   
+   Training Parameters:
+   - Model: YOLOv8s (pretrained)
+   - Epochs: 20
+   - Batch size: 16
+   - Image size: 640
+   - Device: GPU (RTX 4070)
+   - Mixed precision: Enabled
+   - Workers: 8
+   
+   Output:
+   - Best model: runs/detect/combined_yolo/weights/best.pt
+   - Last model: runs/detect/combined_yolo/weights/last.pt
+   - Training logs: runs/detect/combined_yolo/
+   
+   Estimated time: 1-3 hours (depending on hardware)
+
+3. RUN INFERENCE
+   Command: python inference.py --source <path> --save
+   
+   Examples:
+   - Single image:  python inference.py --source test.jpg --save --show
+   - Folder:        python inference.py --source images/ --save
+   - Video:         python inference.py --source video.mp4 --save
+   
+   Options:
+   --source    Path to image, folder, or video
+   --model     Path to trained model (default: best.pt)
+   --conf      Confidence threshold (default: 0.25)
+   --iou       IoU threshold (default: 0.45)
+   --save      Save detection results
+   --show      Display results
+   --device    0 for GPU, cpu for CPU
+
+===============================================================================
+QUICK START:
+===============================================================================
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Start training (this will take 1-3 hours)
+python train.py
+
+# After training completes, test on an image
+python inference.py --source test_image.jpg --save --show
+
+===============================================================================
+ADDING COCO DATASET (OPTIONAL):
+===============================================================================
+
+If you want to include COCO's 80 classes (person, car, dog, etc.):
+
+1. Download COCO:
+   - Train images: http://images.cocodataset.org/zips/train2017.zip
+   - Val images: http://images.cocodataset.org/zips/val2017.zip
+   - Labels: Use Ultralytics COCO format or convert from COCO JSON
+
+2. Extract to:
+   datasets/coco/images/train2017/
+   datasets/coco/images/val2017/
+   datasets/coco/labels/train2017/
+   datasets/coco/labels/val2017/
+
+3. Re-run merge:
+   python merge_datasets.py
+
+This will add ~118K train and ~5K val images to your dataset.
+
+===============================================================================
+CLASS MAPPING REFERENCE:
+===============================================================================
+
+COCO Classes (0-79): Standard COCO objects
+  0: person, 1: bicycle, 2: car, 3: motorcycle, 4: airplane, 5: bus,
+  6: train, 7: truck, 8: boat, 9: traffic light, 10: fire hydrant,
+  ... (see combined_data.yaml for full list)
+
+Custom Classes (80-85):
+  80: FOD (Foreign Object Debris)
+  81: drill
+  82: hammer
+  83: pliers
+  84: screwdriver
+  85: wrench
+
+===============================================================================
+TROUBLESHOOTING:
+===============================================================================
+
+GPU Issues:
+- Check: python -c "import torch; print(torch.cuda.is_available())"
+- If False, reinstall PyTorch with CUDA support
+
+Out of Memory:
+- Reduce batch size in train.py (try batch=8 or batch=4)
+- Reduce image size (try imgsz=512)
+
+Slow Training:
+- Ensure GPU is being used (check train.py output)
+- Close other GPU-intensive applications
+- Enable mixed precision (already enabled in train.py)
+
+===============================================================================
+NEXT STEPS:
+===============================================================================
+
+1. Start training: python train.py
+2. Monitor training in runs/detect/combined_yolo/
+3. After training, run inference to test the model
+4. Optionally: Add COCO dataset and retrain for better general object detection
+
+===============================================================================
