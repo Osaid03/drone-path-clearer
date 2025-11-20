@@ -1,12 +1,15 @@
 # YOLOv8 Object Detection - 86 Classes
 
-Multi-class object detection model trained on COCO dataset (80 classes) plus custom FOD and mechanical tools datasets (6 additional classes).
+Multi-class object detection model designed for **drone-based detection** to identify and clear obstacles. Trained on COCO dataset (80 classes) plus custom FOD and mechanical tools datasets (6 additional classes).
+
+**Use Case:** Autonomous drone navigation and obstacle detection for path clearing.
 
 ## Features
 
 - **86 Classes**: 80 COCO classes + FOD + drill, hammer, pliers, screwdriver, wrench
-- **YOLOv8s**: Fast and accurate detection
+- **YOLOv8s**: Fast and accurate detection optimized for drone deployment
 - **Real-time inference**: Webcam, images, and video support
+- **Drone-ready**: Lightweight model for edge deployment
 
 ## Classes
 
